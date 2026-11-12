@@ -8,7 +8,9 @@ through its API, using open-weights LLMs (<= 14B parameters).
 ```
 quiz/
   client.py    talks to the quiz server
-  llm.py       loads and runs the language model
+  llm/         loads and runs the language model
+    base.py    backend-agnostic LLM interface
+    vllm_.py   vLLM implementation run on the GPU
   solver.py    decides the answer to a question
   tools.py     functions the LLM can call
   voice.py     speech -> text for voice questions
