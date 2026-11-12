@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Secrets
+.env
+
+# Run logs and model files
+data/runs/*
+!data/runs/.gitkeep
+models/
+
+# OS
+.DS_Store
