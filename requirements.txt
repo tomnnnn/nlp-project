@@ -1,1 +1,2 @@
-vllm
+# Python packages for the project (added as we need them)
+requests
