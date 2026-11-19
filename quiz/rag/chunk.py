@@ -10,24 +10,25 @@ class BoundaryStrategy(ABC):
     def split(self, text: str) -> list[str]:
         pass
 
-
 class ParagraphBoundary(BoundaryStrategy):
-    """
-    Concrete implementation of BoundaryStrategy that finds paragraph boundaries.
-    """
-
+    """Splits at paragraph boundaries (double newlines)."""
     def split(self, text: str) -> list[str]:
         return [line for para in text.split("\n\n") for line in para.splitlines() if line.strip()]
 
 class SentenceBoundary(BoundaryStrategy):
+    """Splits at sentence boundaries (periods)."""
     def split(self, text: str) -> list[str]:
         return [t.strip() for t in text.split(".")]
 
 class WordBoundary(BoundaryStrategy):
+    """Splits at word boundaries (spaces)."""
     def split(self, text: str) -> list[str]:
         return text.split(" ")
 
 class Chunker:
+    """
+    A class that chunks text into smaller pieces based on specified boundaries and maximum chunk length.
+    """
     def __init__(self, boundaries, max_chunk_len: int, overlap: int = 0):
         self.boundaries = boundaries
         self.max_len = max_chunk_len
