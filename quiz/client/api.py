@@ -7,6 +7,8 @@ API reference: project_readme.pdf ("The Million Token Question").
 """
 from __future__ import annotations
 
+from .base import QuizClient, QuizError
+
 import os
 import time
 
@@ -16,18 +18,7 @@ BASE = "https://mai-nlp-course.usi.ch"
 TIMEOUT = 5            # seconds the client waits for a server response
 SAFE_RATE_TIME = 1.1   # minimum seconds between question requests (rate limit: 60/min)
 
-
-class QuizError(Exception):
-    """An error response from the server, e.g. 409 question_pending or 410 category_exhausted."""
-
-    def __init__(self, status: int, code: str, body: dict):
-        super().__init__(f"{status} {code}")
-        self.status = status
-        self.code = code
-        self.body = body
-
-
-class QuizClient:
+class QuizClientAPI(QuizClient):
     """Talks to the quiz server over HTTPS.
 
     All calls go through one requests.Session, which keeps the login cookie (quiz_auth).
@@ -68,7 +59,7 @@ class QuizClient:
         """The current round, our score and our open question (pending), if any."""
         return self._request("GET", "/api/challenge/status")
 
-    def request_question(self, category: str, mode: str = "text") -> dict:
+    def request_question(self, category: str, mode: str = "text") -> dict|None:
         """Request a question. The server's DEADLINE starts the moment it is served.
 
         Returns the server response (question, remainingMs, ...) plus "local_deadline":
